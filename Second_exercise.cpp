@@ -10,7 +10,7 @@ struct employee{
     string name;
     string department;
     string position;
-    string salary;
+    int salary;
 
     bool operator==(const employee& other) const {
         return employeeID == other.employeeID &&
@@ -45,7 +45,8 @@ int main(){
                 "Display all employees: --> 4\n" <<
                 "Delete all: --> 5\n" <<
                 "Delete by name: --> 6\n" <<
-                "Delete by ID: --> 7\n";
+                "Delete by ID: --> 7\n" <<
+                "Update employee information --> 8\n";
         cin >> input;
         switch (input){
             case(0):
@@ -79,6 +80,10 @@ int main(){
             case(7):
             cout << "Deleting a employee by his ID...\n";
             delete_by_ID(employeeDatabase);
+            break;
+            case(8):
+            cout << "Start changing employee information...\n";
+            update_employee(employeeDatabase);
             break;
             default:
             break;
@@ -161,7 +166,7 @@ void find_by_name(vector<employee> employeeDatabase){
     if(success == 0){
         cout << "Program is feild to find a employee with such name. Check your spelling\n";
     } else{
-        cout << "Operation is completed successfully";
+        cout << "Operation is completed successfully\n";
     }
 }
 
@@ -183,7 +188,7 @@ void find_by_ID(vector<employee> employeeDatabase){
     if(success == 0){
         cout << "Program is feild to find a employee with such ID. Check your spelling\n";
     } else{
-        cout << "Operation is completed successfully";
+        cout << "Operation is completed successfully\n";
     }
 }
 
@@ -210,7 +215,7 @@ void delete_by_name(vector<employee> employeeDatabase){
     if(success == 0){
         cout << "Program is feild to find a employee with such name. Check your spelling\n";
     } else{
-        cout << "Operation is completed successfully";
+        cout << "Operation is completed successfully\n";
     }
 }
 
@@ -234,71 +239,84 @@ void delete_by_ID(vector<employee> employeeDatabase){
     if(success == 0){
         cout << "Program is feild to find a employee with such ID. Check your spelling\n";
     } else{
-        cout << "Operation is completed successfully";
+        cout << "Operation is completed successfully\n";
+    }
+}
+
+void update(employee em){
+    while(true){
+        display(em);
+        int input;
+        cout << "\nemployeeID --> 0\n" <<
+        "name --> 1\n" <<
+        "department --> 2\n" <<
+        "position --> 3\n" <<
+        "salary --> 4\n" <<
+        "End of changes --> 5\n";
+        cin >> input;
+
+        int new_ID;
+        string new_name;
+        string new_department;
+        string new_position;
+        int new_salary;
+        int end = 0;
+
+        switch (input){
+            case(0):
+            cout << "Enter new employeeID: ";
+            cin >> new_ID;
+            em.employeeID = new_ID;
+            break;
+            case(1):
+            cout << "Enter new name: ";
+            cin >> new_name;
+            em.name = new_name;
+            break;
+            case(2):
+            cout << "Enter new department: ";
+            cin >> new_department;
+            em.department = new_department;
+            break;
+            case(3):
+            cout << "Enter new position: ";
+            cin >> new_position;
+            em.position = new_position;
+            break;
+            case(4):
+            cout << "Enter new salary: ";
+            cin >> new_salary;
+            em.salary = new_salary;
+            break;
+            case(5):
+            cout << "Ending of changes...\n";
+            end ++;
+            break;
+        }
+        if (end==1){
+            break;
+        }
     }
 }
 
 void update_employee(vector<employee> employeeDatabase){
     int input;
-    cout << "Search by ID (0) or name (1):\n";
+    cout << "Search by name (0) or ID (1):\n";
     cin >> input;
     string name;
     int ID;
     int success = 0;
     switch(input){
         case(0):
-        cout << "Enter name of a employee, that you want to delete from database: \n";
+        cout << "Enter name of a employee, that you want to update: \n";
         cin >> name;
 
 
         for (employee em: employeeDatabase){
             if(em.name == name){
                 success ++;
-                cout << "Employee was found successfully. What would you like to change";
-                while(true){
-                    display(em);
-                    int input;
-                    cout << "employeeID --> 0\n" <<
-                    "name --> 1\n" <<
-                    "department --> 2\n" <<
-                    "position --> 3\n" <<
-                    "salary --> 4\n";
-                    cin >> input;
-
-                    int new_ID;
-                    string new_name;
-                    string new_department;
-                    string new_position;
-                    int new_salary;
-
-                    switch (input){
-                        case(0):
-                        cout << "Enter new employeeID: ";
-                        cin >> new_ID;
-                        em.employeeID = new_ID;
-                        break;
-                        case(1):
-                        cout << "Enter new name: ";
-                        cin >> new_name;
-                        em.name = new_name;
-                        break;
-                        case(2):
-                        cout << "Enter new department: ";
-                        cin >> new_department;
-                        em.department = new_department;
-                        break;
-                        case(3):
-                        cout << "Enter new position: ";
-                        cin >> new_position;
-                        em.position = new_position;
-                        break;
-                        case(4):
-                        cout << "Enter new salary: ";
-                        cin >> new_salary;
-                        em.salary = new_salary;
-                        break;
-                    }
-                }
+                cout << "Employee was found successfully. What would you like to change\n";
+                update(em);
                 break;
             }
         }
@@ -307,58 +325,15 @@ void update_employee(vector<employee> employeeDatabase){
         } 
         break;
         case(1):
-        cout << "Enter a employee ID: ";
+        cout << "Enter a employee ID, that you want to update: \n";
         cin >> ID;
 
 
         for (employee em: employeeDatabase){
             if(em.employeeID == ID){
                 success ++;
-                cout << "Employee was found successfully. What would you like to change";
-                while(true){
-                    display(em);
-                    int input;
-                    cout << "employeeID --> 0\n" <<
-                    "name --> 1\n" <<
-                    "department --> 2\n" <<
-                    "position --> 3\n" <<
-                    "salary --> 4\n";
-                    cin >> input;
-
-                    int new_ID;
-                    string new_name;
-                    string new_department;
-                    string new_position;
-                    int new_salary;
-
-                    switch (input){
-                        case(0):
-                        cout << "Enter new employeeID: ";
-                        cin >> new_ID;
-                        em.employeeID = new_ID;
-                        break;
-                        case(1):
-                        cout << "Enter new name: ";
-                        cin >> new_name;
-                        em.name = new_name;
-                        break;
-                        case(2):
-                        cout << "Enter new department: ";
-                        cin >> new_department;
-                        em.department = new_department;
-                        break;
-                        case(3):
-                        cout << "Enter new position: ";
-                        cin >> new_position;
-                        em.position = new_position;
-                        break;
-                        case(4):
-                        cout << "Enter new salary: ";
-                        cin >> new_salary;
-                        em.salary = new_salary;
-                        break;
-                    }
-                }
+                cout << "Employee was found successfully. What would you like to change\n";
+                update(em);
                 break;
             }
         }
