@@ -31,7 +31,7 @@ struct borrowers{
                bk == other.bk &&
                id_in_bookDatabase == other.id_in_bookDatabase;
     }
-}
+};
 
 
 void add_book(vector<book>& bookDatabase);
@@ -112,7 +112,6 @@ void add_book(vector<book>& bookDatabase){
     string availability;
     string title;
     string author;
-    string status;
     string  ISBN;
 
     book somebody;
@@ -237,7 +236,7 @@ void delete_by_title(vector<book> bookDatabase){
 
 
 void delete_by_author(vector<book> bookDatabase){
-    int author;
+    string author;
     int success = 0;
 
 
@@ -320,7 +319,7 @@ void update_book(vector<book> bookDatabase){
     cout << "Search by title (0) or author (1):\n";
     cin >> input;
     string title;
-    int author;
+    string author;
     int success = 0;
     switch(input){
         case(0):
@@ -378,7 +377,8 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
     string title;
     string author;
     int success = 0;
-    switch(input):
+    int index_in_database = 0;
+    switch(input){
         case(0):
         cout << "Enter title of a book: ";
         cin >> title;
@@ -388,8 +388,10 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
             if(bk.title == title){
                 somebody.bk = bk;
                 success ++;
+                somebody.id_in_bookDatabase = index_in_database;
                 break;
             }
+            index_in_database ++;
         }
         if(success == 0){
             cout << "Program is feild to find a book with such title. Check your spelling next time\n";
@@ -405,8 +407,11 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         for (book bk: bookDatabase){
             if(bk.author == author){
                 somebody.bk = bk;
+                bk.availability
                 success ++;
+                somebody.id_in_bookDatabase = index_in_database;
                 break;
+                index_in_database ++;
             }
         }
         if(success == 0){
@@ -414,8 +419,9 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         } else{
             cout << "Operation is completed successfully\n";
         }
+        break;
 
     // There are a lot of things to polish I don't have time to finish it... Probably later?? There is not a lot of possibility on that.
 }
 
-
+}
