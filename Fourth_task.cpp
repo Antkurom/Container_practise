@@ -2,18 +2,19 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <windows.h>
 using namespace std;
 
 
 struct book{
-    string availability;
+    string genre;
     string title;
     string author;
     string status;
     string  ISBN;
 
     bool operator==(const book& other) const {
-        return availability == other.availability &&
+        return genre == other.genre &&
                title == other.title &&
                status == other.status &&
                author == other.author &&
@@ -51,6 +52,7 @@ void display_all_borrower(vector<borrowers> borrowersDatabase, vector<book> book
 
 int main(){
     vector<book> bookDatabase;
+    vector<borrowers> borrowersDatabase;
     cout << "You are in a book Database. There is several options what you can do: \n";
     while (true){
         int input;
@@ -62,44 +64,72 @@ int main(){
                 "Delete all: --> 5\n" <<
                 "Delete by title: --> 6\n" <<
                 "Delete by author: --> 7\n" <<
-                "Update book information --> 8\n";
+                "Update book information --> 8\n" <<
+                "Borrow a book --> 9\n" <<
+                "Return a book --> 10\n" <<
+                "Display all borrowers and books that are borrowed --> 11\n";
         cin >> input;
         switch (input){
             case(0):
             cout << "Exiting from the system...\n";
+            Sleep(500);
             return 0;
             case(1):
             cout << "Adding a new book...\n";
+            Sleep(500);
             add_book(bookDatabase);
             break;
             case(2):
             cout << "Find a book by title...\n";
+            Sleep(500);
             find_by_title(bookDatabase);
             break;
             case(3):
             cout << "Find a book by author...\n";
+            Sleep(500);
             find_by_author(bookDatabase);
             break;
             case(4):
             cout << "Display all books in database...\n";
+            Sleep(500);
             display_all(bookDatabase);
             break;
             case(5):
             cout << "Deleting everything...\n";
+            Sleep(500);
             bookDatabase.clear();
             cout << "Operation is completed successfully";
+            Sleep(500);
             break;
             case(6):
             cout << "Deleting a book by his title...\n";
+            Sleep(500);
             delete_by_title(bookDatabase);
             break;
             case(7):
             cout << "Deleting a book by his author...\n";
+            Sleep(500);
             delete_by_author(bookDatabase);
             break;
             case(8):
             cout << "Start changing book information...\n";
+            Sleep(500);
             update_book(bookDatabase);
+            break;
+            case(9):
+            cout << "Borrowing a book...\n";
+            Sleep(500);
+            add_borrowers(borrowersDatabase, bookDatabase);
+            break;
+            case(10):
+            cout << "Returning a book...\n";
+            Sleep(500);
+            return_book_delete_borrower(borrowersDatabase, bookDatabase);
+            break;
+            case(11):
+            cout << "Displaying all borrowers and their's book...\n";
+            Sleep(500);
+            display_all_borrower(borrowersDatabase, bookDatabase);
             break;
             default:
             break;
@@ -109,7 +139,7 @@ int main(){
 
 
 void add_book(vector<book>& bookDatabase){
-    string availability;
+    string genre;
     string title;
     string author;
     string  ISBN;
@@ -117,9 +147,9 @@ void add_book(vector<book>& bookDatabase){
     book somebody;
 
 
-    cout << "\nEnter book author: ";
-    cin >> availability;
-    somebody.availability = availability;
+    cout << "\nEnter book genre: ";
+    cin >> genre;
+    somebody.genre = genre;
 
 
     cout << "Enter title of a book: ";
@@ -132,9 +162,9 @@ void add_book(vector<book>& bookDatabase){
     somebody.author = author;
 
 
-    cout << "Enter status of a book: ";
-    cin >> status;
-    somebody.status = status;
+    cout << "Status for a new book by default is Available. If you want to change it you will have to do it manually.";
+    Sleep(500);
+    somebody.status = "Available";
 
     cout << "Enter ISBN of a book: ";
     cin >> ISBN;
@@ -148,17 +178,19 @@ void add_book(vector<book>& bookDatabase){
 
 
 void display(book bk){
-    cout << "\nbook author: " << bk.availability << endl;
+    cout << "\n---------------------------------------------\n";
+    cout << "\nbook genre: " << bk.genre << endl;
     cout << "book title: " << bk.title << endl;
     cout << "book author: " << bk.author << endl;
     cout << "book status: " << bk.status << endl;
     cout << "book ISBN: " << bk.ISBN << endl;
+    cout << "\n---------------------------------------------\n\n";
+    Sleep(500);
 }
 
 
 void display_all(vector<book> bookDatabase){
     for (book bk: bookDatabase){
-        cout << "\n---------------------------------------------\n";
         display(bk);
     }
 }
@@ -180,8 +212,10 @@ void find_by_title(vector<book> bookDatabase){
     }
     if(success == 0){
         cout << "Program is feild to find a book with such title. Check your spelling\n";
+        Sleep(500);
     } else{
         cout << "Operation is completed successfully\n";
+        Sleep(500);
     }
 }
 
@@ -202,8 +236,10 @@ void find_by_author(vector<book> bookDatabase){
     }
     if(success == 0){
         cout << "Program is feild to find a book with such author. Check your spelling\n";
+        Sleep(500);
     } else{
         cout << "Operation is completed successfully\n";
+        Sleep(500);
     }
 }
 
@@ -229,8 +265,10 @@ void delete_by_title(vector<book> bookDatabase){
     }
     if(success == 0){
         cout << "Program is feild to find a book with such title. Check your spelling\n";
+        Sleep(500);
     } else{
         cout << "Operation is completed successfully\n";
+        Sleep(500);
     }
 }
 
@@ -253,8 +291,10 @@ void delete_by_author(vector<book> bookDatabase){
     }
     if(success == 0){
         cout << "Program is feild to find a book with such author. Check your spelling\n";
+        Sleep(500);
     } else{
         cout << "Operation is completed successfully\n";
+        Sleep(500);
     }
 }
 
@@ -262,7 +302,7 @@ void update(book bk){
     while(true){
         display(bk);
         int input;
-        cout << "\navailability --> 0\n" <<
+        cout << "\ngenre --> 0\n" <<
         "title --> 1\n" <<
         "author --> 2\n" <<
         "status --> 3\n" <<
@@ -270,7 +310,7 @@ void update(book bk){
         "End of changes --> 5\n";
         cin >> input;
 
-        string availability;
+        string genre;
         string new_title;
         string new_author;
         string new_status;
@@ -279,9 +319,9 @@ void update(book bk){
 
         switch (input){
             case(0):
-            cout << "Enter new availability: ";
-            cin >> availability;
-            bk.availability = availability;
+            cout << "Enter new genre: ";
+            cin >> genre;
+            bk.genre = genre;
             break;
             case(1):
             cout << "Enter new title: ";
@@ -337,6 +377,7 @@ void update_book(vector<book> bookDatabase){
         }
         if(success == 0){
             cout << "Program is feild to find a book with such title. Check your spelling\n";
+            Sleep(500);
         } 
         break;
         case(1):
@@ -354,6 +395,7 @@ void update_book(vector<book> bookDatabase){
         }
         if(success == 0){
             cout << "Program is feild to find a book with such author. Check your spelling\n";
+            Sleep(500);
         } 
 
         }
@@ -387,6 +429,7 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         for (book bk: bookDatabase){
             if(bk.title == title){
                 somebody.bk = bk;
+                bk.status = "Borrowed";
                 success ++;
                 somebody.id_in_bookDatabase = index_in_database;
                 break;
@@ -395,8 +438,10 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         }
         if(success == 0){
             cout << "Program is feild to find a book with such title. Check your spelling next time\n";
+            Sleep(500);
         } else{
             cout << "Operation is completed successfully\n";
+            Sleep(500);
         }
         break;
         case(1):
@@ -407,7 +452,7 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         for (book bk: bookDatabase){
             if(bk.author == author){
                 somebody.bk = bk;
-                bk.availability
+                bk.status = "Borrowed";
                 success ++;
                 somebody.id_in_bookDatabase = index_in_database;
                 break;
@@ -416,12 +461,89 @@ void add_borrowers(vector<borrowers> borrowersDatabase, vector<book> bookDatabas
         }
         if(success == 0){
             cout << "Program is feild to find a book with such author. Check your spelling next time\n";
+            Sleep(500);
         } else{
-            cout << "Operation is completed successfully\n";
+            cout << "Operation is completed successfully. Book id is: " << index_in_database << endl;
+            Sleep(500);
         }
         break;
-
-    // There are a lot of things to polish I don't have time to finish it... Probably later?? There is not a lot of possibility on that.
+    }
+    borrowersDatabase.push_back(somebody);
 }
 
+
+void return_book_delete_borrower(vector<borrowers> borrowersDatabase, vector<book> bookDatabase){
+    int input;
+    cout << "Please choice the method how you want to identify your borrow: \nName of the Borrower --> Type 0\nId of the book --> Type 1\n";
+    cin >> input;
+
+    string name;
+    int your_book;
+    int id;
+    switch (input){
+        case(0):
+        cout << "Enter your name: ";
+        cin >> name;
+        for (borrowers br: borrowersDatabase){
+            if(br.name == name){
+                display(br.bk);
+                cout << "\nDoes this is your book? Yes --> 0, No --> 1\n";
+                cin >> your_book;
+                if(your_book == 0){
+                    br.bk.status = "Available";
+                    borrowersDatabase.erase(remove(borrowersDatabase.begin(), borrowersDatabase.end(), br), borrowersDatabase.end());
+                    cout << "Operation is completed.\n";
+                    Sleep(500);
+                    break;
+                } else if (your_book = 1){
+                    cout << "I can't find your book, try again.\n";
+                    Sleep(500);
+                    break;
+                } else{
+                    cout<< "Incorrect input\n";
+                    Sleep(500);
+                    break;
+                }
+            }
+        }
+        break;
+        case(1):
+        cout << "Enter Id of your book: ";
+        cin >> id;
+        display(bookDatabase[id]);
+        cout << "\nDoes this is your book? Yes --> 0, No --> 1\n";
+        cin >> your_book;
+        if(your_book == 0){
+            bookDatabase[id].status = "Available";
+            borrowersDatabase.erase(remove(borrowersDatabase.begin(), borrowersDatabase.end(), bookDatabase[id]), borrowersDatabase.end());
+            cout << "Operation is completed.\n";
+            Sleep(500);
+            
+            break;
+            } else if (your_book = 1){
+                cout << "I can't find your book, try again. With Id you can find correct book if no books was deleted from database during you carrying your book.\n";
+                Sleep(500);
+                break;
+            } else{
+                cout<< "Incorrect input\n";
+                Sleep(500);
+                break;
+            }
+        
+    }
 }
+
+
+void display_all_borrower(vector<borrowers> borrowersDatabase, vector<book> bookDatabase){
+    for (borrowers br: borrowersDatabase){
+        cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+        cout << "Name of the borrower: " << br.name << endl;
+        cout << "Book ID: " << br.id_in_bookDatabase << endl;
+        display(br.bk);
+        cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+        Sleep(500);
+    }
+    cout << "END of list\n";
+    Sleep(500);
+}
+
